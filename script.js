@@ -133,6 +133,17 @@ const createUsername = function (accs) {
 };
 createUsername(accounts);
 
+//Display balance
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
+};
+
+const updateUI = function (acc) {
+  displayMovements(acc);
+  calcDisplayBalance(acc);
+};
+
 ////Event handler
 let currentAccount, timer;
 
@@ -149,5 +160,7 @@ btnLogin.addEventListener("click", function (e) {
     }`;
 
     containerApp.style.opacity = 100;
+
+    updateUI(currentAccount);
   }
 });
