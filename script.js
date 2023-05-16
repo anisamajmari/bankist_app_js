@@ -140,7 +140,7 @@ const calcDisplayBalance = function (acc) {
 };
 
 //Display summary
-const summary = function (acc) {
+const displaySummary = function (acc) {
   const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
@@ -164,7 +164,7 @@ const summary = function (acc) {
 const updateUI = function (acc) {
   displayMovements(acc);
   calcDisplayBalance(acc);
-  summary(currentAccount);
+  displaySummary(currentAccount);
 };
 
 ////Event handler
