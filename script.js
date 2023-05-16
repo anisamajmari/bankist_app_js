@@ -164,7 +164,7 @@ const displaySummary = function (acc) {
 const updateUI = function (acc) {
   displayMovements(acc);
   calcDisplayBalance(acc);
-  displaySummary(currentAccount);
+  displaySummary(acc);
 };
 
 ////Event handler
