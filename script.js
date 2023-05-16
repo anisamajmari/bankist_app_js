@@ -167,27 +167,6 @@ const updateUI = function (acc) {
   displaySummary(acc);
 };
 
-////Event handler
-let currentAccount, timer;
-
-//Log in
-btnLogin.addEventListener("click", function (e) {
-  e.preventDefault();
-
-  currentAccount = accounts.find(
-    (acc) => acc.username === inputLoginUsername.value
-  );
-  if (currentAccount?.pin === +inputLoginPin.value) {
-    labelWelcome.textContent = `Welcome back, ${
-      currentAccount.owner.split(" ")[0]
-    }`;
-
-    containerApp.style.opacity = 100;
-
-    updateUI(currentAccount);
-  }
-});
-
 //Log out timer
 const logOutTimer = function () {
   const tick = function () {
@@ -210,4 +189,30 @@ const logOutTimer = function () {
 
   return timer;
 };
-logOutTimer();
+
+////Event handler
+let currentAccount, timer;
+
+//Log in
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    (acc) => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === +inputLoginPin.value) {
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+
+    containerApp.style.opacity = 100;
+
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+
+    if (timer) clearInterval(timer);
+    timer = logOutTimer();
+
+    updateUI(currentAccount);
+  }
+});
