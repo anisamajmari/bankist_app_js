@@ -139,9 +139,32 @@ const calcDisplayBalance = function (acc) {
   labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 };
 
+//Display summary
+const summary = function (acc) {
+  const incomes = acc.movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = formatCur(incomes, acc.locale, acc.currency);
+
+  const out = acc.movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = formatCur(out, acc.locale, acc.currency);
+
+  const interest = acc.movements
+    .filter((mov) => mov > 0)
+    .map((deposit) => (deposit * acc.interestRate) / 100)
+    .filter((int, i, arr) => {
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = formatCur(interest, acc.locale, acc.currency);
+};
+
 const updateUI = function (acc) {
   displayMovements(acc);
   calcDisplayBalance(acc);
+  summary(currentAccount);
 };
 
 ////Event handler
