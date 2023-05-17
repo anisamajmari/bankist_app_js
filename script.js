@@ -231,6 +231,7 @@ btnLogin.addEventListener("click", function (e) {
   }
 });
 
+//Money transfer
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
   const amount = +inputTransferAmount.value;
@@ -257,4 +258,25 @@ btnTransfer.addEventListener("click", function (e) {
     clearInterval(timer);
     timer = logOutTimer();
   }
+});
+
+//Request loan
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Math.floor(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((movement) => movement >= amount)
+  ) {
+    setTimeout(function () {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      updateUI(currentAccount);
+    }, 2000);
+  }
+  inputLoanAmount.value = "";
+
+  clearInterval(timer);
+  timer = logOutTimer();
 });
