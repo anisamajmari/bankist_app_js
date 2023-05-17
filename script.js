@@ -176,6 +176,7 @@ const logOutTimer = function () {
     labelTimer.textContent = `${min}:${sec}`;
 
     if (time === 0) {
+      clearInterval(timer);
       labelWelcome.textContent = "Log in to get started";
       containerApp.style.opacity = 0;
     }
@@ -206,6 +207,19 @@ btnLogin.addEventListener("click", function (e) {
     }`;
 
     containerApp.style.opacity = 100;
+
+    const now = new Date();
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    };
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(now);
 
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
