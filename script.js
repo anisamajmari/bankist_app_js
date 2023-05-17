@@ -230,3 +230,31 @@ btnLogin.addEventListener("click", function (e) {
     updateUI(currentAccount);
   }
 });
+
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = +inputTransferAmount.value;
+  const reciverAccount = accounts.find(
+    (account) => account.username === inputTransferTo.value
+  );
+
+  inputTransferTo.value = inputTransferAmount.value = "";
+
+  if (
+    amount > 0 &&
+    reciverAccount &&
+    currentAccount.balance >= amount &&
+    reciverAccount?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    reciverAccount.movements.push(amount);
+
+    currentAccount.movementsDates.push(new Date().toISOString());
+    reciverAccount.movementsDates.push(new Date().toISOString());
+
+    updateUI(currentAccount);
+
+    clearInterval(timer);
+    timer = logOutTimer();
+  }
+});
